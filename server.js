@@ -28,12 +28,21 @@ async function run() {
  
     const userDatabase = client.db("mindfulDashboard").collection("users")
 
-    
+    // Post Method for save user all data on Database
     app.post("/users", async (req, res) => {
       const user = req.body;
       const userData = userDatabase.insertOne(user);
       res.send(userData);
     });
+
+
+   app.get('/users', async(req,res)=>{
+    const query = {};
+    const cursor = userDatabase.find(query);
+    const result = await cursor.toArray();
+    res.send(result)
+   }) 
+
 
     
   } finally {
@@ -43,12 +52,9 @@ async function run() {
 run().catch(console.dir);
 
 
-
-
 app.get('/',(req,res)=>{
     res.send('Start up server is running')
 }) 
-
 app.listen(port, ()=>{
     console.log(`Start Up server running on ${port}`)
 })
