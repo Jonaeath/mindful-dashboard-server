@@ -10,7 +10,7 @@ app.use(express.json());
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.MD_USER}:${process.env.MD_PASSWORD}@cluster0.pg0dj0q.mongodb.net/?retryWrites=true&w=majority`;
 console.log(uri)
 
@@ -35,7 +35,6 @@ async function run() {
       res.send(userData);
     });
 
-
    app.get('/users', async(req,res)=>{
     const query = {};
     const cursor = userDatabase.find(query);
@@ -43,7 +42,12 @@ async function run() {
     res.send(result)
    }) 
 
-
+   app.get("/details/:id", async(req, res)=>{
+    const id = req.params.id;
+    const query = {_id: new ObjectId(id)}
+    const userDetails = await userDatabase.findOne(query);
+    res.send(userDetails)
+   })
     
   } finally {
     
