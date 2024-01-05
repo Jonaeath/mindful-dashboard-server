@@ -48,6 +48,14 @@ async function run() {
     const userDetails = await userDatabase.findOne(query);
     res.send(userDetails)
    })
+
+   app.put("/update/:id", async(req, res)=>{
+    const id = req.params.id;
+    const query = {_id: new ObjectId(id)}
+    const updateData = req.body;
+    const updateUser = await userDatabase.updateOne(query, { $set: updateData });
+    res.send(updateUser)
+   })
     
   } finally {
     
