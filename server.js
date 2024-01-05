@@ -56,6 +56,13 @@ async function run() {
     const updateUser = await userDatabase.updateOne(query, { $set: updateData });
     res.send(updateUser)
    })
+
+   app.delete("/delete/:id", async(req, res) => {
+    const id = req.params.id;
+    const query = {_id: new ObjectId(id)}
+    const result = await userDatabase.deleteOne(query);
+    res.send(result)
+  });
     
   } finally {
     
